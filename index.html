@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Baldur's Gate Interactive Map</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #171411;
+    font-family: Georgia, serif;
+  }
+  .map {
+    position: relative;
+    width: 100%;
+    line-height: 0;
+  }
+  .map img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .pin {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    background: #8c3026;
+    color: #fff2d9;
+    border: 2px solid #e5c28a;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 2px 7px #0009;
+  }
+  .pin:hover, .pin:focus {
+    background: #bd513b;
+    z-index: 10;
+  }
+  .pin::after {
+    content: attr(data-name);
+    position: absolute;
+    bottom: 34px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #211b17;
+    color: #f4e5c8;
+    padding: 7px 10px;
+    border: 1px solid #a78b61;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 13px;
+    line-height: 1.2;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pin:hover::after, .pin:focus::after {
+    opacity: 1;
+  }
+  @media (max-width: 600px) {
+    .pin { width: 24px; height: 24px; font-size: 13px; line-height: 20px; }
+  }
+</style>
+</head>
+<body>
+  <div class="map" id="map">
+    <img src="baldurs-gate-map.png" alt="Map of Baldur's Gate">
+  </div>
+
+<script>
+  // Add discovered locations here.
+  // x and y are percentages of the map's width and height.
+  // Replace url with the location's public Notion page link.
+  const locations = [
+    // Example:
+    // { name: "Elfsong Tavern", x: 35, y: 40,
+    //   url: "https://www.notion.so/YOUR-PAGE-ID" }
+  ];
+
+  const map = document.getElementById("map");
+
+  locations.forEach(location => {
+    const pin = document.createElement("a");
+    pin.className = "pin";
+    pin.style.left = location.x + "%";
+    pin.style.top = location.y + "%";
+    pin.href = location.url;
+    pin.target = "_blank";
+    pin.rel = "noopener noreferrer";
+    pin.dataset.name = location.name;
+    pin.setAttribute("aria-label", location.name);
+    pin.textContent = "⌖";
+    map.appendChild(pin);
+  });
+</script>
+</body>
+</html>
